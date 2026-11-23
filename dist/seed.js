@@ -664,9 +664,13 @@ export async function runSeed() {
     ]);
     console.log('[Seed] Created verifications and credit notes.');
     console.log('[Seed] Complete! Database is populated with live DJ Civil data.');
-    process.exit(0);
 }
-runSeed().catch((err) => {
-    console.error('[Seed Error]', err);
-    process.exit(1);
-});
+const isMainModule = process.argv[1]?.includes('seed');
+if (isMainModule) {
+    runSeed()
+        .then(() => process.exit(0))
+        .catch((err) => {
+        console.error('[Seed Error]', err);
+        process.exit(1);
+    });
+}
