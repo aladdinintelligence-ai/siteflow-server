@@ -132,14 +132,16 @@ export async function getOrders(req: AuthenticatedRequest, res: Response): Promi
 }
 
 export async function getOrderById(req: AuthenticatedRequest, res: Response): Promise<void> {
-  const { id } = req.params;
+  const rawId = req.params.id;
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
+  const isObjectId = typeof id === 'string' && /^[0-9a-fA-F]{24}$/.test(id);
 
   const projection = req.user?.role === 'driver'
     ? '-unitPrice -totalPrice -commercialTerms'
     : '';
 
   const order = await Order.findOne({
-    $or: [{ _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }, { orderNumber: id }],
+    $or: [{ _id: isObjectId ? id : null }, { orderNumber: id }],
   }).select(projection);
 
   if (!order) {

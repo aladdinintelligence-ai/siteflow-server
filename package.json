@@ -1,6 +1,7 @@
 {
   "name": "siteflow-server",
   "version": "1.0.0",
+  "type": "module",
   "description": "Production Node.js & MongoDB backend for DJ Civil SiteFlow operations",
   "main": "dist/server.js",
   "scripts": {

@@ -19,7 +19,7 @@ export interface AuthenticatedRequest extends Request {
 
 export function generateToken(payload: AuthUserPayload): string {
   const secret = process.env.JWT_SECRET || 'siteflow_jwt_secret_dj_civil_2026';
-  const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
+  const expiresIn = (process.env.JWT_EXPIRES_IN || '7d') as any;
   return jwt.sign(payload, secret, { expiresIn });
 }
 

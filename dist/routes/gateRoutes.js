@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { scanIn, getExpectedVisits, getOnSiteVisits, getExitLogs, marshalFlagException, marshalManualEntry, } from '../controllers/gateController.js';
+import { authenticateToken } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
+const router = Router();
+router.use(authenticateToken);
+router.post('/scan-in', scanIn);
+router.get('/expected', getExpectedVisits);
+router.get('/on-site', getOnSiteVisits);
+router.get('/exit-logs', getExitLogs);
+router.post('/visits/:visitId/flag', requireRole(['marshal', 'director']), marshalFlagException);
+router.post('/manual-entry', requireRole(['marshal', 'director']), marshalManualEntry);
+export default router;
