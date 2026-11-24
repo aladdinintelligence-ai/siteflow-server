@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import mongoose from 'mongoose';
 import { Order } from '../models/Order.js';
 import { Visit } from '../models/Visit.js';
 import { Driver } from '../models/Driver.js';
@@ -45,10 +46,16 @@ export async function getSupplierHistory(req: AuthenticatedRequest, res: Respons
 }
 
 export async function acceptAndAssignDriver(req: AuthenticatedRequest, res: Response): Promise<void> {
-  const { orderId } = req.params;
+  const orderId = req.params.orderId as string;
   const { driverKey, vehicleReg, eta } = req.body;
 
-  const order = await Order.findById(orderId);
+  let order = null;
+  if (mongoose.Types.ObjectId.isValid(orderId)) {
+    order = await Order.findById(orderId);
+  }
+  if (!order) {
+    order = await Order.findOne({ orderNumber: orderId });
+  }
   if (!order) {
     res.status(404).json({ success: false, message: 'Order not found' });
     return;
@@ -150,10 +157,16 @@ export async function acceptAndAssignDriver(req: AuthenticatedRequest, res: Resp
 }
 
 export async function declineOrder(req: AuthenticatedRequest, res: Response): Promise<void> {
-  const { orderId } = req.params;
+  const orderId = req.params.orderId as string;
   const { reason } = req.body;
 
-  const order = await Order.findById(orderId);
+  let order = null;
+  if (mongoose.Types.ObjectId.isValid(orderId)) {
+    order = await Order.findById(orderId);
+  }
+  if (!order) {
+    order = await Order.findOne({ orderNumber: orderId });
+  }
   if (!order) {
     res.status(404).json({ success: false, message: 'Order not found' });
     return;

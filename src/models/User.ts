@@ -7,7 +7,6 @@ export type UserRole =
   | 'supplier'
   | 'driver'
   | 'marshal'
-  | 'supervisor'
   | 'analyst';
 
 export interface IUser extends Document {
@@ -33,7 +32,7 @@ const UserSchema = new Schema<IUser>(
     role: {
       type: String,
       required: true,
-      enum: ['director', 'ordering', 'supplier', 'driver', 'marshal', 'supervisor', 'analyst'],
+      enum: ['director', 'ordering', 'supplier', 'driver', 'marshal', 'analyst'],
     },
     organization: { type: String, required: true, default: 'DJ Civil Engineering Ltd' },
     supplierId: { type: String },

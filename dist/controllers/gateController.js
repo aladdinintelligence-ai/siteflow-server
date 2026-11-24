@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Visit } from '../models/Visit.js';
 import { Order } from '../models/Order.js';
 import { Site } from '../models/Site.js';
@@ -6,11 +7,16 @@ import { broadcastEvent } from '../socket/index.js';
 export async function scanIn(req, res) {
     const { qrPayload, visitId, orderNumber, gateId } = req.body;
     let visit = null;
-    if (visitId) {
+    if (visitId && mongoose.Types.ObjectId.isValid(visitId)) {
         visit = await Visit.findById(visitId);
     }
-    else if (orderNumber) {
-        visit = await Visit.findOne({ orderNumber });
+    else if (orderNumber || visitId) {
+        visit = await Visit.findOne({
+            $or: [
+                { orderNumber: orderNumber || visitId },
+                { visitNumber: visitId },
+            ],
+        });
     }
     else if (qrPayload) {
         // Parse QR string (e.g. DJ-SITEFLOW://DJ-2026-0812/gate-1)
@@ -30,7 +36,12 @@ export async function scanIn(req, res) {
     visit.entryAt = new Date();
     await visit.save();
     // Update linked order
-    await Order.findByIdAndUpdate(visit.orderId, { status: 'on_site' });
+    if (visit.orderId && mongoose.Types.ObjectId.isValid(String(visit.orderId))) {
+        await Order.findByIdAndUpdate(visit.orderId, { status: 'on_site' });
+    }
+    else if (visit.orderNumber) {
+        await Order.findOneAndUpdate({ orderNumber: visit.orderNumber }, { status: 'on_site' });
+    }
     // Update site active headcount
     const site = await Site.findOne({ siteKey: visit.siteKey });
     if (site) {
@@ -104,9 +115,20 @@ export async function getExitLogs(req, res) {
     res.json({ success: true, visits });
 }
 export async function marshalFlagException(req, res) {
-    const { visitId } = req.params;
+    const visitId = req.params.visitId;
     const { reason } = req.body;
-    const visit = await Visit.findById(visitId);
+    let visit = null;
+    if (visitId && mongoose.Types.ObjectId.isValid(visitId)) {
+        visit = await Visit.findById(visitId);
+    }
+    if (!visit && visitId) {
+        visit = await Visit.findOne({
+            $or: [
+                { orderNumber: visitId },
+                { visitNumber: visitId },
+            ],
+        });
+    }
     if (!visit) {
         res.status(404).json({ success: false, message: 'Visit not found' });
         return;
@@ -136,7 +158,18 @@ export async function marshalFlagException(req, res) {
 }
 export async function marshalManualEntry(req, res) {
     const { visitId, gateId } = req.body;
-    const visit = await Visit.findById(visitId);
+    let visit = null;
+    if (visitId && mongoose.Types.ObjectId.isValid(visitId)) {
+        visit = await Visit.findById(visitId);
+    }
+    if (!visit && visitId) {
+        visit = await Visit.findOne({
+            $or: [
+                { orderNumber: visitId },
+                { visitNumber: visitId },
+            ],
+        });
+    }
     if (!visit) {
         res.status(404).json({ success: false, message: 'Visit booking not found' });
         return;
@@ -146,7 +179,12 @@ export async function marshalManualEntry(req, res) {
     if (gateId)
         visit.gateId = gateId;
     await visit.save();
-    await Order.findByIdAndUpdate(visit.orderId, { status: 'on_site' });
+    if (visit.orderId && mongoose.Types.ObjectId.isValid(String(visit.orderId))) {
+        await Order.findByIdAndUpdate(visit.orderId, { status: 'on_site' });
+    }
+    else if (visit.orderNumber) {
+        await Order.findOneAndUpdate({ orderNumber: visit.orderNumber }, { status: 'on_site' });
+    }
     const site = await Site.findOne({ siteKey: visit.siteKey });
     if (site) {
         site.activeHeadcount = (site.activeHeadcount || 0) + 1;

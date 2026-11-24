@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import mongoose from 'mongoose';
 import { Visit } from '../models/Visit.js';
 import { Order } from '../models/Order.js';
 import { Driver } from '../models/Driver.js';
@@ -15,8 +16,12 @@ export async function getDriverJobs(req: AuthenticatedRequest, res: Response): P
   // Map to clean Driver Job View with STRICT ZERO PRICING
   const jobs = await Promise.all(
     visits.map(async (v) => {
-      // Query order without commercial fields
-      const order = await Order.findById(v.orderId).select('category description timeSlot deliveryDate');
+      let order = null;
+      if (v.orderId && mongoose.Types.ObjectId.isValid(String(v.orderId))) {
+        order = await Order.findById(v.orderId).select('category description timeSlot deliveryDate');
+      } else if (v.orderNumber) {
+        order = await Order.findOne({ orderNumber: v.orderNumber }).select('category description timeSlot deliveryDate');
+      }
       const site = await Site.findOne({ siteKey: v.siteKey });
       const dest = site?.destinations.find((d) => d.destId === v.destinationId);
 

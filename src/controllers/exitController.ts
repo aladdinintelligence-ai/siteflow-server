@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import mongoose from 'mongoose';
 import { Visit } from '../models/Visit.js';
 import { Order } from '../models/Order.js';
 import { Site } from '../models/Site.js';
@@ -11,10 +12,16 @@ export async function scanOut(req: AuthenticatedRequest, res: Response): Promise
   const { visitId, orderNumber } = req.body;
 
   let visit = null;
-  if (visitId) {
+  if (visitId && mongoose.Types.ObjectId.isValid(visitId)) {
     visit = await Visit.findById(visitId);
-  } else if (orderNumber) {
-    visit = await Visit.findOne({ orderNumber });
+  }
+  if (!visit && (orderNumber || visitId)) {
+    visit = await Visit.findOne({
+      $or: [
+        { orderNumber: orderNumber || visitId },
+        { visitNumber: visitId },
+      ],
+    });
   }
 
   if (!visit) {
@@ -32,7 +39,13 @@ export async function scanOut(req: AuthenticatedRequest, res: Response): Promise
   await visit.save();
 
   // Update order status if not disputed
-  const order = await Order.findById(visit.orderId);
+  let order = null;
+  if (visit.orderId && mongoose.Types.ObjectId.isValid(String(visit.orderId))) {
+    order = await Order.findById(visit.orderId);
+  }
+  if (!order && visit.orderNumber) {
+    order = await Order.findOne({ orderNumber: visit.orderNumber });
+  }
   if (order && order.status !== 'disputed') {
     order.status = 'completed';
     await order.save();

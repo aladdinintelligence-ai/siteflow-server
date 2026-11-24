@@ -21,6 +21,7 @@ export async function createOrder(req: AuthenticatedRequest, res: Response): Pro
     timeSlot,
     unitPrice,
     commercialTerms,
+    vehicleReg,
   } = req.body;
 
   if (!category || !orderedQty || !siteKey || !destinationId || !supplierKey) {
@@ -68,6 +69,8 @@ export async function createOrder(req: AuthenticatedRequest, res: Response): Pro
     totalPrice,
     commercialTerms: commercialTerms || 'Standard Net 30, demurrage £95/hr after 45m',
     status: 'pending',
+    vehicleReg: vehicleReg || undefined,
+    assignedVehicleReg: vehicleReg || undefined,
   });
 
   await order.save();

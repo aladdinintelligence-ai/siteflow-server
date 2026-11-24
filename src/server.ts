@@ -80,7 +80,6 @@ app.all(['/api/seed', '/api/auth/seed'], async (req, res) => {
         { role: 'supplier', email: 'dispatch@cemex.co.uk' },
         { role: 'driver', email: 'dave.miller@cemex.co.uk' },
         { role: 'marshal', email: 'gate1.marshal@djcivil.co.uk' },
-        { role: 'supervisor', email: 'supervisor.patel@djcivil.co.uk' },
         { role: 'analyst', email: 'analyst@djcivil.co.uk' },
       ],
       defaultPassword: 'SiteFlow2026!',

@@ -6,7 +6,7 @@ import { Supplier } from '../models/Supplier.js';
 import { AuditLog } from '../models/AuditLog.js';
 import { broadcastEvent } from '../socket/index.js';
 export async function createOrder(req, res) {
-    const { type, category, description, orderedQty, unit, siteKey, destinationId, supplierKey, timeSlot, unitPrice, commercialTerms, } = req.body;
+    const { type, category, description, orderedQty, unit, siteKey, destinationId, supplierKey, timeSlot, unitPrice, commercialTerms, vehicleReg, } = req.body;
     if (!category || !orderedQty || !siteKey || !destinationId || !supplierKey) {
         res.status(400).json({ success: false, message: 'Missing required order fields' });
         return;
@@ -47,6 +47,8 @@ export async function createOrder(req, res) {
         totalPrice,
         commercialTerms: commercialTerms || 'Standard Net 30, demurrage £95/hr after 45m',
         status: 'pending',
+        vehicleReg: vehicleReg || undefined,
+        assignedVehicleReg: vehicleReg || undefined,
     });
     await order.save();
     // Audit log

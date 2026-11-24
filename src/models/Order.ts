@@ -35,6 +35,7 @@ export interface IOrder extends Document {
   assignedDriverKey?: string;
   assignedDriverName?: string;
   assignedVehicleReg?: string;
+  vehicleReg?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -70,6 +71,7 @@ const OrderSchema = new Schema<IOrder>(
     assignedDriverKey: { type: String },
     assignedDriverName: { type: String },
     assignedVehicleReg: { type: String },
+    vehicleReg: { type: String },
   },
   { timestamps: true }
 );

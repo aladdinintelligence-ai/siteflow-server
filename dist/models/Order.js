@@ -29,5 +29,6 @@ const OrderSchema = new Schema({
     assignedDriverKey: { type: String },
     assignedDriverName: { type: String },
     assignedVehicleReg: { type: String },
+    vehicleReg: { type: String },
 }, { timestamps: true });
 export const Order = mongoose.model('Order', OrderSchema);
