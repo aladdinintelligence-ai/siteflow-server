@@ -100,9 +100,9 @@ export async function runSeed(): Promise<void> {
   const sites = await Site.create([
     {
       siteKey: 'site-chatham',
-      name: 'Chatham Maritime Civil Works',
+      name: 'Chatham Capstone',
       code: 'CHATHAM-01',
-      address: 'Leviathan Way, Chatham Maritime, Medway, Kent',
+      address: 'Capstone Road, Chatham, Medway (Official address TBC)',
       city: 'Chatham',
       postcode: 'ME4 4LL',
       coordinates: { lat: 51.3972, lng: 0.5348 },
@@ -148,9 +148,9 @@ export async function runSeed(): Promise<void> {
     },
     {
       siteKey: 'site-rochester',
-      name: 'Rochester Bridge Infrastructure Project',
+      name: 'Rochester Capstone',
       code: 'ROCHESTER-02',
-      address: 'Esplanade Haul Road, Medway Riverside',
+      address: 'Capstone Road, Rochester, Medway (Official address TBC)',
       city: 'Rochester',
       postcode: 'ME1 1QN',
       coordinates: { lat: 51.3887, lng: 0.5019 },
@@ -311,7 +311,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0812',
       siteKey: 'site-chatham',
-      siteName: 'Chatham Maritime Civil Works',
+      siteName: 'Chatham Capstone',
       destinationId: 'dest-chatham-dock',
       destinationName: 'North Quay Dry Dock Pour Zone',
       supplierKey: 'sup-cemex',
@@ -336,7 +336,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0811',
       siteKey: 'site-chatham',
-      siteName: 'Chatham Maritime Civil Works',
+      siteName: 'Chatham Capstone',
       destinationId: 'dest-chatham-agg',
       destinationName: 'East Basin Aggregate Storage Bays',
       supplierKey: 'sup-tarmac',
@@ -361,7 +361,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0814',
       siteKey: 'site-chatham',
-      siteName: 'Chatham Maritime Civil Works',
+      siteName: 'Chatham Capstone',
       destinationId: 'dest-chatham-rebar',
       destinationName: 'St Mary\'s Island Rebar Laydown Yard',
       supplierKey: 'sup-cemex',
@@ -383,7 +383,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0808',
       siteKey: 'site-chatham',
-      siteName: 'Chatham Maritime Civil Works',
+      siteName: 'Chatham Capstone',
       destinationId: 'dest-chatham-agg',
       destinationName: 'East Basin Aggregate Storage Bays',
       supplierKey: 'sup-hanson',
@@ -408,7 +408,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0805',
       siteKey: 'site-rochester',
-      siteName: 'Rochester Bridge Infrastructure Project',
+      siteName: 'Rochester Capstone',
       destinationId: 'dest-rochester-pier',
       destinationName: 'Pier 4 River Embankment Foundation',
       supplierKey: 'sup-cemex',
@@ -433,7 +433,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0802',
       siteKey: 'site-rochester',
-      siteName: 'Rochester Bridge Infrastructure Project',
+      siteName: 'Rochester Capstone',
       destinationId: 'dest-rochester-sub',
       destinationName: 'Riverside Substation Utilities Trench',
       supplierKey: 'sup-tarmac',
@@ -456,7 +456,7 @@ export async function runSeed(): Promise<void> {
     {
       orderNumber: 'DJ-2026-0800',
       siteKey: 'site-chatham',
-      siteName: 'Chatham Maritime Civil Works',
+      siteName: 'Chatham Capstone',
       destinationId: 'dest-chatham-dock',
       destinationName: 'North Quay Dry Dock Pour Zone',
       supplierKey: 'sup-cemex',
