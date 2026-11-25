@@ -6,5 +6,5 @@ import { uploadProof } from '../middleware/upload.js';
 const router = Router();
 router.use(authenticateToken);
 router.get('/discrepancies', getDiscrepancies);
-router.post('/visits/:visitId', requireRole(['marshal', 'director', 'ordering']), uploadProof.single('proofPhoto'), verifyDelivery);
+router.post('/visits/:visitId', requireRole(['marshal', 'manager', 'director', 'ordering']), uploadProof.single('proofPhoto'), verifyDelivery);
 export default router;

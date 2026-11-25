@@ -75,12 +75,11 @@ app.all(['/api/seed', '/api/auth/seed'], async (req, res) => {
       message: 'DJ Civil SiteFlow database seeded successfully',
       seededUsersCount: userCount,
       accounts: [
-        { role: 'director', email: 'director@djcivil.co.uk' },
-        { role: 'ordering', email: 'ordering@djcivil.co.uk' },
-        { role: 'supplier', email: 'dispatch@cemex.co.uk' },
-        { role: 'driver', email: 'dave.miller@cemex.co.uk' },
-        { role: 'marshal', email: 'gate1.marshal@djcivil.co.uk' },
-        { role: 'analyst', email: 'analyst@djcivil.co.uk' },
+        { role: 'manager', email: 'chris.jones@djcivil.co.uk', name: 'Chris Jones' },
+        { role: 'supplier', email: 'dispatch@cemex.co.uk', name: 'Marcus Bell' },
+        { role: 'driver', email: 'dave.miller@cemex.co.uk', name: 'Dave Miller' },
+        { role: 'marshal', email: 'gate1.marshal@djcivil.co.uk', name: "Gary O'Connor" },
+        { role: 'analyst', email: 'analyst@djcivil.co.uk', name: 'Emma Richardson' },
       ],
       defaultPassword: 'SiteFlow2026!',
     });

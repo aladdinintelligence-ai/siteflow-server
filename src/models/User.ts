@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export type UserRole =
+  | 'manager'
   | 'director'
   | 'ordering'
   | 'supplier'
@@ -32,7 +33,7 @@ const UserSchema = new Schema<IUser>(
     role: {
       type: String,
       required: true,
-      enum: ['director', 'ordering', 'supplier', 'driver', 'marshal', 'analyst'],
+      enum: ['manager', 'director', 'ordering', 'supplier', 'driver', 'marshal', 'analyst'],
     },
     organization: { type: String, required: true, default: 'DJ Civil Engineering Ltd' },
     supplierId: { type: String },

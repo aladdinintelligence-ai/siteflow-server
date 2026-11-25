@@ -11,7 +11,7 @@ router.use(authenticateToken);
 router.get('/discrepancies', getDiscrepancies);
 router.post(
   '/visits/:visitId',
-  requireRole(['marshal', 'director', 'ordering']),
+  requireRole(['marshal', 'manager', 'director', 'ordering']),
   uploadProof.single('proofPhoto'),
   verifyDelivery
 );

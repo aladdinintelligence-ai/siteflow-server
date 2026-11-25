@@ -12,7 +12,7 @@ router.use(driverPrivacyFirewall);
 router.get('/stats', getOrderStats);
 router.get('/', getOrders);
 router.get('/:id', getOrderById);
-router.post('/', requireRole(['ordering', 'director']), createOrder);
+router.post('/', requireRole(['manager', 'ordering', 'director']), createOrder);
 
 export default router;
 

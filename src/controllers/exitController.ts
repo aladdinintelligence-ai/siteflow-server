@@ -47,8 +47,16 @@ export async function scanOut(req: AuthenticatedRequest, res: Response): Promise
     order = await Order.findOne({ orderNumber: visit.orderNumber });
   }
   if (order && order.status !== 'disputed') {
-    order.status = 'completed';
-    await order.save();
+    // Check if this order has multiple visits, mark complete only when all visits are completed
+    const remainingVisits = await Visit.countDocuments({
+      orderId: order._id,
+      _id: { $ne: visit._id },
+      status: { $ne: 'completed' },
+    });
+    if (remainingVisits === 0) {
+      order.status = 'completed';
+      await order.save();
+    }
   }
 
   // Update site active headcount

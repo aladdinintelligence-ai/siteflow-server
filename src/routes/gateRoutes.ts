@@ -18,8 +18,8 @@ router.post('/scan-in', scanIn);
 router.get('/expected', getExpectedVisits);
 router.get('/on-site', getOnSiteVisits);
 router.get('/exit-logs', getExitLogs);
-router.post('/visits/:visitId/flag', requireRole(['marshal', 'director']), marshalFlagException);
-router.post('/manual-entry', requireRole(['marshal', 'director']), marshalManualEntry);
+router.post('/visits/:visitId/flag', requireRole(['marshal', 'manager', 'director']), marshalFlagException);
+router.post('/manual-entry', requireRole(['marshal', 'manager', 'director']), marshalManualEntry);
 
 export default router;
 

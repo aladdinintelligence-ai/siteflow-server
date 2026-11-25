@@ -34,21 +34,29 @@ export async function runSeed(): Promise<void> {
 
   const defaultPasswordHash = await bcrypt.hash('SiteFlow2026!', 10);
 
-  // 1. Seed Users (6 Roles)
+  // 1. Seed Users (Site Manager Chris Jones, Supplier, Driver, Marshal, Analyst)
   const users = await User.create([
     {
-      name: 'Sarah Jenkins',
-      email: 'director@djcivil.co.uk',
+      name: 'Chris Jones',
+      email: 'chris.jones@djcivil.co.uk',
       passwordHash: defaultPasswordHash,
-      role: 'director',
+      role: 'manager',
       organization: 'DJ Civil Engineering Ltd',
       siteId: 'site-chatham',
     },
     {
-      name: 'Callum Vance',
+      name: 'Chris Jones',
+      email: 'director@djcivil.co.uk',
+      passwordHash: defaultPasswordHash,
+      role: 'manager',
+      organization: 'DJ Civil Engineering Ltd',
+      siteId: 'site-chatham',
+    },
+    {
+      name: 'Chris Jones',
       email: 'ordering@djcivil.co.uk',
       passwordHash: defaultPasswordHash,
-      role: 'ordering',
+      role: 'manager',
       organization: 'DJ Civil Engineering Ltd',
       siteId: 'site-chatham',
     },
